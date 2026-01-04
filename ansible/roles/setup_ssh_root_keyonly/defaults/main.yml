@@ -1,0 +1,21 @@
+---
+ssh_bootstrap: false
+
+ssh_port: 22
+ssh_root_pubkey_file: "sample-key.pub"
+ssh_root_private_file: "sample-key"
+private_key_path: "~/ansible-playground/ansible/roles/setup_ssh_root_keyonly/files/sample-key"
+public_key_path: "~/ansible-playground/ansible/roles/setup_ssh_root_keyonly/files/sample-key.pub"
+
+
+ssh_settings_bootstrap:
+  PermitRootLogin: "yes"
+  PasswordAuthentication: "yes"
+  PubkeyAuthentication: "yes"
+
+ssh_settings_harden:
+  PermitRootLogin: "prohibit-password"
+  PasswordAuthentication: "no"
+  ChallengeResponseAuthentication: "no"
+  PubkeyAuthentication: "yes"
+

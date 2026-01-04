@@ -1,0 +1,36 @@
+services:
+  backend:
+    build:
+      context: .
+      args:
+       ROOT_PASSWORD: ${ROOT_PASSWORD:-lupalupaingat}
+    container_name: backend
+    hostname: backend
+    ports:
+      - "2222:22"
+    restart: unless-stopped
+    networks:
+      ansible:
+        ipv4_address: 172.20.0.2  
+  frontend:
+    build:
+      context: .
+      args:
+       ROOT_PASSWORD: ${ROOT_PASSWORD:-lupalupaingat}
+    container_name: frontend
+    hostname: frontend
+    ports:
+      - "2223:22"
+    restart: unless-stopped
+    networks:
+      ansible:
+        ipv4_address: 172.20.0.3
+
+networks:
+  ansible:
+    name: ansible
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          ip_range: 172.20.0.128/25

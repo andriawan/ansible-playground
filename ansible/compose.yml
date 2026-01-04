@@ -1,0 +1,19 @@
+services:
+  ansible:
+    image: alpine/ansible:2.20.0
+    working_dir: /ansible
+    volumes:
+      - .:/ansible
+      - ./roles/setup_ssh_root_keyonly/files/sample-key:/root/.ssh/sample-key
+    environment:
+      ANSIBLE_HOST_KEY_CHECKING: "False"
+      ANSIBLE_SSH_PASS: "lupalupaingat"
+    command: >
+      sh -c "ansible-playbook -i inventory/hosts playbook.yml"
+    networks:
+      - ansible
+    restart: unless-stopped
+
+networks:
+  ansible:
+    external: true

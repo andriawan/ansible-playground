@@ -1,0 +1,8 @@
+deployer_user: deployer
+deployer_groups:
+  - sudo
+deployer_shell: /bin/bash
+deployer_home: "/home/{{ deployer_user }}"
+deployer_sudo_commands:
+  - /usr/bin/apt-get
+  - /usr/bin/apt

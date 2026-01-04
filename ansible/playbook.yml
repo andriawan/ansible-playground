@@ -1,0 +1,20 @@
+---
+- name: setup root and deployer server config
+  hosts: servers
+  become: false
+  gather_facts: false
+  roles:
+    - setup_ssh_root_keyonly
+    - create_deployer_user
+
+- name: setup backend webserver
+  hosts: backend
+  roles:
+    - {role: setup_backend_webserver, tags: [webserver]}
+
+- name: setup frontend webserver
+  hosts: frontend
+  roles:
+    - {role: setup_frontend_webserver, tags: [webserver]}
+
+

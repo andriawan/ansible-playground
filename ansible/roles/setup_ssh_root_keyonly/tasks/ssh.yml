@@ -1,0 +1,28 @@
+---
+- name: Ensure root .ssh directory exists
+  file:
+    path: /root/.ssh
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Install root SSH public key
+  authorized_key:
+    user: root
+    key: "{{ lookup('file', role_path + '/files/' + ssh_root_pubkey_file) }}"
+    state: present
+
+- name: Select SSH settings (bootstrap vs harden)
+  set_fact:
+    ssh_active_settings: >-
+      {{ ssh_settings_bootstrap if ssh_bootstrap else ssh_settings_harden }}
+
+- name: Apply SSH configuration
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?{{ item.key }}"
+    line: "{{ item.key }} {{ item.value }}"
+    validate: "sshd -t -f %s"
+  loop: "{{ ssh_active_settings | dict2items }}"
+  notify: restart ssh

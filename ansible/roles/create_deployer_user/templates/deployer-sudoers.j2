@@ -1,0 +1,2 @@
+{{ deployer_user }} ALL=(root) NOPASSWD: \
+{{ deployer_sudo_commands | join(', \\\n') }}
